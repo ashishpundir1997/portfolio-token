@@ -6,8 +6,10 @@ const Navbar: React.FC = () => {
   return (
     <nav className="fixed top-0 left-0 w-full flex items-center justify-between text-white px-4 py-3 z-50">
       {/* Left Icon */}
+     <div className="flex items-center gap-3">
       <img src={TokenIcon} alt="Token Icon" className="cursor-pointer w-10 h-10" />
-
+      <p>Token Portfolio</p>
+</div>
       {/* Right Button */}
       <button
         className="
