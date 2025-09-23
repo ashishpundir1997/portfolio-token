@@ -2,6 +2,8 @@ import React, { useMemo } from 'react';
 import { useSearchCoinsQuery, useGetTrendingCoinsQuery } from "../../store/services/tokenApi";
 import debounce from "lodash/debounce";
 import Spinner from "./Spinner";
+import star from "../../assets/icons/selected.svg";
+import tick from "../../assets/icons/check_circle.svg";
 
 interface SearchTokenProps {
   isOpen: boolean;
@@ -77,7 +79,8 @@ const SearchToken: React.FC<SearchTokenProps> = ({
                     return (
                       <div
                         key={coin.id}
-                        className="flex items-center justify-between p-3 hover:bg-[#27272A] rounded-[6px] group transition-colors"
+                        className={`flex items-center justify-between p-3 hover:bg-[#27272A] rounded-[6px] group transition-colors
+                          ${selectedCoins.has(coin.id) ? 'bg-[#A9E8510F]' : ''}`}
                       >
                         <div className="flex items-center gap-3">
                           <img src={coin.thumb} alt={coin.name} className="w-8 h-8 rounded-full" />
@@ -86,12 +89,15 @@ const SearchToken: React.FC<SearchTokenProps> = ({
                             <p className="text-sm text-[#71717A]">{coin.symbol.toUpperCase()}</p>
                           </div>
                         </div>
-                        <div className="flex items-center">
+                        <div className="flex items-center gap-2">
+                          {selectedCoins.has(coin.id) && (
+                            <img src={star} alt="Selected" className="w-4 h-4" />
+                          )}
                           <div 
-                            className={`w-[15px] h-[15px] rounded-full border-2 cursor-pointer relative
+                            className={`w-5 h-5 cursor-pointer flex items-center justify-center
                               ${selectedCoins.has(coin.id) 
-                                ? ' bg-[#22C55E] ' 
-                                : 'border-[#71717A]'
+                                ? 'text-[#22C55E]' 
+                                : 'text-[#71717A] hover:text-[#22C55E]'
                               }`}
                             onClick={() => {
                               setSelectedCoins(prev => {
@@ -105,11 +111,26 @@ const SearchToken: React.FC<SearchTokenProps> = ({
                               });
                             }}
                           >
-                            {selectedCoins.has(coin.id) && (
-                              <div className="absolute inset-0 flex items-center justify-center">
-                                <div className="w-[15px] h-[15px] rounded-full"></div>
-                              </div>
-                            )}
+                            <svg 
+                              xmlns="http://www.w3.org/2000/svg" 
+                              viewBox="0 0 24 24" 
+                              fill="currentColor" 
+                              className="w-5 h-5"
+                            >
+                              {selectedCoins.has(coin.id) ? (
+                                <path 
+                                  fillRule="evenodd" 
+                                  d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z" 
+                                  clipRule="evenodd" 
+                                />
+                              ) : (
+                                <path 
+                                  fillRule="evenodd" 
+                                  d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm0 1.5a8.25 8.25 0 100 16.5 8.25 8.25 0 000-16.5z" 
+                                  clipRule="evenodd" 
+                                />
+                              )}
+                            </svg>
                           </div>
                         </div>
                       </div>
@@ -131,7 +152,8 @@ const SearchToken: React.FC<SearchTokenProps> = ({
                   {searchResults?.coins.map((coin) => (
                     <div
                       key={coin.id}
-                      className="flex items-center justify-between p-3 hover:bg-[#27272A] rounded-[6px] group transition-colors"
+                      className={`flex items-center justify-between p-3 hover:bg-[#27272A] rounded-[6px] group transition-colors
+                        ${selectedCoins.has(coin.id) ? 'bg-[#A9E8510F]' : ''}`}
                     >
                       <div className="flex items-center gap-3">
                         <img src={coin.thumb} alt={coin.name} className="w-8 h-8 rounded-full" />
@@ -140,12 +162,15 @@ const SearchToken: React.FC<SearchTokenProps> = ({
                           <p className="text-sm text-[#71717A]">{coin.symbol.toUpperCase()}</p>
                         </div>
                       </div>
-                      <div className="flex items-center">
+                      <div className="flex items-center gap-2">
+                        {selectedCoins.has(coin.id) && (
+                          <img src={star} alt="Selected" className="w-4 h-4" />
+                        )}
                         <div 
-                          className={`w-[15px] h-[15px] rounded-full border-2 cursor-pointer relative
+                          className={`w-5 h-5 cursor-pointer flex items-center justify-center
                             ${selectedCoins.has(coin.id) 
-                              ? ' bg-[#22C55E]' 
-                              : 'border-[#71717A] '
+                              ? 'text-[#22C55E]' 
+                              : 'text-[#71717A] hover:text-[#22C55E]'
                             }`}
                           onClick={() => {
                             setSelectedCoins(prev => {
