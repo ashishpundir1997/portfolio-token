@@ -151,12 +151,12 @@ console.log(watchedTokens);
                   </div>
                 </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="text-sm text-[#f4f4f5]">
-                    ${token.current_price?.toFixed(2) || '0.00'}
+                  <div className="text-[13px] font-normal text-[#A1A1AA]">
+                    ${token.current_price?.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })  || '0.00'}
                   </div>
                 </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                  <span className={`text-sm ${token.price_change_percentage_24h >= 0 ? 'text-[#22C55E]' : 'text-[#EF4444]'}`}>
+                  <span className={`text-[13px] font-normal text-[#A1A1AA]`}>
                     {token.price_change_percentage_24h?.toFixed(2) || '0.00'}%
                   </span>
                 </td>
@@ -186,15 +186,15 @@ console.log(watchedTokens);
                       }}
                     />
                   ) : (
-                    <div className="text-sm text-[#f4f4f5]">
+                    <div className="text-[13px] text-[#f4f4f5]">
                       {token.holdings?.toFixed(4) || '0.0000'}
                     </div>
                   )}
                 </td>
               
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="text-sm text-[#f4f4f5]">
-                    ${((token.holdings || 0) * token.current_price).toFixed(2)}
+                  <div className="text-[13px] text-[#f4f4f5]">
+                    ${((token.holdings || 0) * token.current_price).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }
                   </div>
                 </td>
               
