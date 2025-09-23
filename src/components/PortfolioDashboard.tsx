@@ -18,7 +18,7 @@ const generateColor = (index: number): string => {
 };
 
 const PortfolioDashboard: React.FC = () => {
-  const { tokens, totalValue } = useSelector((state: RootState) => state.watchlist);
+  const { tokens, totalValue, lastUpdated } = useSelector((state: RootState) => state.watchlist);
   
   // Format currency with appropriate units
   const formatCurrency = (value: number): string => {
@@ -58,7 +58,12 @@ const PortfolioDashboard: React.FC = () => {
 
               <div className="text-text-secondary text-normal text-xs flex gap-1">
                 <p>Last Updated:</p>
-               <p>{new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", hour12: true, second: "2-digit" }).toUpperCase()}</p>
+                <p>{new Date(lastUpdated).toLocaleTimeString([], { 
+                  hour: "2-digit", 
+                  minute: "2-digit", 
+                  hour12: true, 
+                  second: "2-digit" 
+                }).toUpperCase()}</p>
               </div>
           </div>
 

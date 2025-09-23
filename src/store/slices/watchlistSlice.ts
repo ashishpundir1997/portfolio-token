@@ -18,12 +18,14 @@ export interface WatchedToken {
 export interface WatchlistState {
   tokens: { [key: string]: WatchedToken };
   totalValue: number;
+  lastUpdated: string;
 }
 
 // Initial state
 const initialState: WatchlistState = {
   tokens: {},
   totalValue: 0,
+  lastUpdated: new Date().toISOString(),
 };
 
 // Create the slice
@@ -93,6 +95,8 @@ const watchlistSlice = createSlice({
           (total, token) => total + (token.holdings * token.current_price),
           0
         );
+        // Update global last updated time
+        state.lastUpdated = new Date().toISOString();
       }
     },
   },

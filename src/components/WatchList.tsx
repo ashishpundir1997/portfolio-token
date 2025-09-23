@@ -11,6 +11,7 @@ import plus from "../assets/icons/plus-mini.svg";
 import OptionMenu from "./common/OptionMenu";
 import EditHoldings from "./common/EditHoldings";
 import plusWhite from "../assets/icons/plus-mini-white.svg";
+import Spinner from "./common/Spinner";
 
 const WatchList: React.FC = () => {
   const dispatch = useDispatch();
@@ -38,12 +39,10 @@ const WatchList: React.FC = () => {
 
   // Fetch prices for watched tokens
   const tokenIds = watchedTokens.map((token) => token.id);
-  const { data: prices } = useGetTokenPricesQuery(tokenIds, {
+  const { data: prices, refetch, isFetching } = useGetTokenPricesQuery(tokenIds, {
     skip: tokenIds.length === 0,
     pollingInterval: 60000 // Update every minute
   });
-  console.log("Prices:", prices);
-  console.log("Watched Tokens:", watchedTokens);
 
   // Update prices when data is received
   useEffect(() => {
@@ -95,24 +94,33 @@ const WatchList: React.FC = () => {
         </div>
    <div className="flex gap-3">
     <button
-    //   onClick={}
-       className={`flex items-center gap-[6px] 
+      onClick={() => {
+        if (tokenIds.length > 0 && !isFetching) {
+          refetch();
+        }
+      }}
+      disabled={tokenIds.length === 0 || isFetching}
+      className={`flex items-center gap-[6px] 
       h-[36px]
-       rounded-[6px]
+      rounded-[6px]
       px-[10px] py-[6px]
       bg-[#27272A] 
       shadow-[0_0_0_1px_#18181B,0_1px_2px_0px_#00000066,inset_0_0.75px_0_0_#FFFFFF33]
-      cursor-pointer`}
+      cursor-pointer
+      ${(tokenIds.length === 0 || isFetching) ? 'opacity-50 cursor-not-allowed' : ''}`}
     >
-   
-        <img
-          src={plusWhite}
-          alt="Button Icon"
-          className="w-[15px] h-[15px]"
-        />
+        {isFetching ? (
+          <Spinner size="sm" color="#ffffffd6" />
+        ) : (
+          <img
+            src={plusWhite}
+            alt="Button Icon"
+            className="w-[15px] h-[15px]"
+          />
+        )}
   
-      <span className="text-[#ffffffd6] font-medium leading-[20px]">
-        Refresh Prices
+      <span className="text-[#ffffffd6] font-medium leading-[20px] ml-1">
+        {isFetching ? 'Refreshing...' : 'Refresh Prices'}
       </span>
     </button>
 
@@ -121,13 +129,14 @@ const WatchList: React.FC = () => {
 </div>
       {/* Search Modal */}
       {isSearchOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className=" rounded-lg p-6 max-w-lg w-full max-h-[80vh] flex flex-col">
+        <div className="fixed inset-0 bg-[#212124D9] bg-opacity-80 flex items-center justify-center p-4 z-50">
+          <div className="bg-[#212124] rounded-lg p-6 max-w-lg w-full max-h-[80vh] flex flex-col
+            shadow-[0px_8px_16px_0px_#00000052,0px_4px_8px_0px_#00000052,0px_0px_0px_1px_#FFFFFF1A,0px_-1px_0px_0px_#FFFFFF0A,0px_0px_0px_1.5px_#FFFFFF0F_inset,0px_0px_0px_1px_#18181B_inset]">
             <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-bold">Search Tokens</h3>
+              <h3 className="text-lg font-medium text-[#f4f4f5]">Search Tokens</h3>
               <button 
                 onClick={() => setIsSearchOpen(false)}
-                className="text-gray-500 hover:text-gray-700"
+                className="text-[#71717A] hover:text-[#f4f4f5] transition-colors"
               >
                 ×
               </button>
@@ -137,30 +146,35 @@ const WatchList: React.FC = () => {
               type="text"
               onChange={(e) => debouncedSetSearchTerm(e.target.value)}
               placeholder="Search by token name..."
-              className="w-full px-4 py-2 border rounded-lg mb-4"
+              className="w-full px-4 py-2 rounded-[6px] mb-4 text-[#f4f4f5] bg-[#27272A] 
+                border border-[#FFFFFF14] placeholder-[#71717A] focus:outline-none focus:border-[#FFFFFF29]"
               autoFocus
             />
 
             <div className="overflow-y-auto flex-1">
               {isLoading ? (
-                <div className="text-center py-4">Loading...</div>
+                <div className="text-center py-4 text-[#71717A]">
+                  <Spinner size="md" color="#71717A" />
+                  <p className="mt-2">Searching tokens...</p>
+                </div>
               ) : (
                 <div className="space-y-2">
                   {searchResults?.coins.map((coin) => (
                     <div
                       key={coin.id}
-                      className="flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg group"
+                      className="flex items-center justify-between p-3 hover:bg-[#27272A] rounded-[6px] group transition-colors"
                     >
                       <div className="flex items-center gap-3">
                         <img src={coin.thumb} alt={coin.name} className="w-8 h-8 rounded-full" />
                         <div>
-                          <p className="font-medium">{coin.name}</p>
-                          <p className="text-sm text-gray-500">{coin.symbol.toUpperCase()}</p>
+                          <p className="font-medium text-[#f4f4f5]">{coin.name}</p>
+                          <p className="text-sm text-[#71717A]">{coin.symbol.toUpperCase()}</p>
                         </div>
                       </div>
                       <button
                         onClick={() => handleAddToWatchlist(coin)}
-                        className="opacity-0 group-hover:opacity-100 px-3 py-1 bg-primary text-white rounded-md hover:bg-opacity-90 transition-all"
+                        className="opacity-0 group-hover:opacity-100 px-3 py-1 bg-[#22C55E] text-white rounded-[6px] 
+                          hover:bg-[#16A34A] transition-all text-sm font-medium"
                       >
                         Add
                       </button>
