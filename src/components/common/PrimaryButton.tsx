@@ -11,7 +11,7 @@ const PrimaryButton: React.FC<PrimaryButtonProps> = ({ text, icon, onClick, radi
   return (
     <button
       onClick={onClick}
-   className={`flex items-center gap-[6px]
+   className={`flex items-center gap-[2px] lg:gap-[6px] 
   h-[36px]
    ${radius}
   px-[10px] py-[6px]
@@ -26,7 +26,7 @@ const PrimaryButton: React.FC<PrimaryButtonProps> = ({ text, icon, onClick, radi
           className="w-[15px] h-[15px]"
         />
       )}
-      <span className="text-text-primary font-medium leading-[20px]">
+      <span className="text-text-primary font-medium leading-[20px] text-[13px]">
         {text}
       </span>
     </button>

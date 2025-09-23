@@ -27,6 +27,21 @@ const SearchToken: React.FC<SearchTokenProps> = ({
   }
 }, [isOpen, watchedTokenIds]);
 
+React.useEffect(() => {
+  if (isOpen) {
+    // prevent background scroll
+    document.body.style.overflow = "hidden";
+  } else {
+    // restore scroll
+    document.body.style.overflow = "";
+  }
+
+  // cleanup when component unmounts
+  return () => {
+    document.body.style.overflow = "";
+  };
+}, [isOpen]);
+
 
   // Handle closing and resetting state
   const handleClose = () => {
@@ -93,9 +108,9 @@ const SearchToken: React.FC<SearchTokenProps> = ({
                       >
                         <div className="flex items-center gap-3">
                           <img src={coin.thumb} alt={coin.name} className="w-8 h-8 rounded-full" />
-                          <div>
-                            <p className="font-medium text-[#f4f4f5]">{coin.name}</p>
-                            <p className="text-sm text-[#71717A]">{coin.symbol.toUpperCase()}</p>
+                          <div className='flex gap-[2px]'>
+                            <p className="text-sm font-normal text-[#f4f4f5]">{coin.name}</p>
+                            <p className="text-sm font-normal text-[#f4f4f5]">({coin.symbol.toUpperCase()})</p>
                           </div>
                         </div>
                         <div className="flex items-center gap-2">

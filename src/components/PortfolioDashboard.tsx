@@ -53,7 +53,7 @@ const PortfolioDashboard: React.FC = () => {
           <div className="text-left flex flex-col justify-between h-full">
               <div>
                 <p className="text-text-secondary text-base">Portfolio Total</p>
-                <p className="text-[56px] font-medium text-[#f4f4f5]">${totalValue.toLocaleString()}</p>
+                <p className="text-[40px] lg:text-[56px] font-medium text-[#f4f4f5]">${totalValue.toLocaleString()}</p>
               </div>
 
               <div className="text-text-secondary text-normal text-xs flex gap-1">
@@ -70,8 +70,8 @@ const PortfolioDashboard: React.FC = () => {
         {/* Right Column - Distribution Chart */}
         <div className="text-left rounded-lg">
           <p className="text-text-secondary text-base">Portfolio Total</p>
-          <div className="flex gap-8 mt-5"> 
-            <div className="w-[200px] h-[200px]">
+          <div className="flex-col gap-8 mt-5 lg:flex-row flex"> 
+            <div className="w-[200px] h-[200px] mx-auto ">
               {tokenData.length > 0 ? (
                 <Doughnut
                   data={{

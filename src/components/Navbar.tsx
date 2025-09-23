@@ -8,8 +8,8 @@ const Navbar: React.FC = () => {
     <nav className="fixed top-0 left-0 w-full h-[64px] flex items-center justify-between px-6 z-50 bg-[#212124]">
       {/* Left Icon */}
      <div className="flex items-center gap-3">
-      <img src={TokenIcon} alt="Token Icon" className="cursor-pointer w-10 h-10" />
-      <p className="font-semibold text-xl leading-[24px]">Token Portfolio</p>
+      <img src={TokenIcon} alt="Token Icon" className="cursor-pointer w-8 h-8 lg:w-10 lg:h-10" />
+      <p className="font-semibold text-base lg:text-xl leading-[24px]">Token Portfolio</p>
 </div>
       {/* Right Button */}
    <PrimaryButton text="Conect wallet" icon={WalletIcon} radius="rounded-full" onClick={() => { /* Handle click */ }} />

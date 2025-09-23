@@ -72,9 +72,9 @@ const WatchList: React.FC = () => {
     <div className="rounded-[12px] w-full">
       {/* Header with Total Value and Add Token button */}
       <div className="flex justify-between items-center mb-6">
-        <div className="flex items-center gap-[1px] w-[280px] h-[28px]">
+        <div className="flex items-center gap-[1px] h-[28px]">
             <img src={star} alt="watchlist" />
-          <h2 className="text-2xl font-medium text-[#f4f4f5]">Watchlist</h2>
+          <h2 className="text-lg lg:text-2xl font-medium text-[#f4f4f5]">Watchlist</h2>
         
         </div>
    <div className="flex gap-3">
@@ -100,13 +100,13 @@ const WatchList: React.FC = () => {
           <img
             src={cached}
             alt="Button Icon"
-            className="w-[15px] h-[15px]"
+            className="max-w-[20px] max-h-[20px] lg:max-w-[15px] lg:max-h-[15px]"
           />
         )}
   
-      <span className="text-[#f4f4f5] font-medium leading-[20px] ml-1 text-[14px]">
-        {isFetching ? 'Refreshing...' : 'Refresh Prices'}
-      </span>
+      <span className="hidden lg:inline text-[#f4f4f5] font-medium leading-[20px] ml-1 text-[14px]">
+    {isFetching ? 'Refreshing...' : 'Refresh Prices'}
+  </span>
     </button>
 
       <PrimaryButton text="Add Token" icon={plus} radius="rounded-md" onClick={() => setIsSearchOpen(true)} />
@@ -131,7 +131,7 @@ const WatchList: React.FC = () => {
                 <th className="px-6 py-2 text-left text-xs font-medium text-text-secondary uppercase tracking-wider">Sparkline (7d)</th>
                 <th className="px-6 py-2 text-left text-xs font-medium text-text-secondary uppercase tracking-wider">Holdings</th>
                 <th className="px-6 py-2 text-left text-xs font-medium text-text-secondary uppercase tracking-wider">Value</th>
-              <th className="w-[48px]"></th>
+             <th className="px-6 py-2 text-left text-xs font-medium text-text-secondary uppercase tracking-wider"></th>
             </tr>
           </thead>
           <tbody>
