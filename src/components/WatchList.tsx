@@ -12,6 +12,7 @@ import EditHoldings from "./common/EditHoldings";
 import plusWhite from "../assets/icons/plus-mini-white.svg";
 import Spinner from "./common/Spinner";
 import SearchToken from "./common/SearchToken";
+import cached from "../assets/icons/cached.svg";
 
 const WatchList: React.FC = () => {
   const dispatch = useDispatch();
@@ -98,13 +99,13 @@ const WatchList: React.FC = () => {
           <Spinner size="sm" color="#ffffffd6" />
         ) : (
           <img
-            src={plusWhite}
+            src={cached}
             alt="Button Icon"
             className="w-[15px] h-[15px]"
           />
         )}
   
-      <span className="text-[#ffffffd6] font-medium leading-[20px] ml-1">
+      <span className="text-[#f4f4f5] font-medium leading-[20px] ml-1 text-[14px]">
         {isFetching ? 'Refreshing...' : 'Refresh Prices'}
       </span>
     </button>

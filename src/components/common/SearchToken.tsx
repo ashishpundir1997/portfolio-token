@@ -204,9 +204,11 @@ const SearchToken: React.FC<SearchTokenProps> = ({
               handleClose();
             }}
             disabled={selectedCoins.size === 0}
-            className="px-[10px] py-[6px] bg-secondary border rounded-[6px] border-[var(--borders-border-base,#FFFFFF1A)]
-            font-medium text-[13px] text-[#52525B] cursor-pointer 
-             hover:bg-[var(--buttons-bg-primary-hover,#FFFFFF14)] transition-colors "
+            className={`px-[10px] py-[6px] border rounded-[6px] font-medium text-[13px] cursor-pointer transition-colors ${
+              selectedCoins.size > 0
+                ? 'bg-[#A9E851] text-black'
+                : 'bg-secondary border-[var(--borders-border-base,#FFFFFF1A)] text-[#52525B] hover:bg-[var(--buttons-bg-primary-hover,#FFFFFF14)]'
+            }`}
           >
             Add to Wishlist
           </button>
