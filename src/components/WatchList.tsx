@@ -163,8 +163,8 @@ console.log(watchedTokens);
                   <td className="px-6 py-4 whitespace-nowrap">
                   <div className="w-24 h-8  rounded">
                    <Sparklines data={token.sparkline_7d} width={100} height={30}>
-  <SparklinesLine color={token.price_change_percentage_24h >= 0 ? "#22C55E" : "#EF4444"}   style={{ fill: "transparent", strokeWidth: 2 }} />
-</Sparklines>
+                    <SparklinesLine color={token.price_change_percentage_24h >= 0 ? "#22C55E" : "#EF4444"}   style={{ fill: "transparent", strokeWidth: 2 }} />
+                   </Sparklines>
                   </div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
