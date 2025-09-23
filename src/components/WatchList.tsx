@@ -93,16 +93,16 @@ const WatchList: React.FC = () => {
           <h2 className="text-2xl font-medium text-[#f4f4f5]">Watchlist</h2>
         
         </div>
-<div className="flex gap-3">
+   <div className="flex gap-3">
     <button
     //   onClick={}
-   className={`flex items-center gap-[6px] 
-  h-[36px]
-   rounded-[6px]
-  px-[10px] py-[6px]
-  bg-[#27272A] 
-  shadow-[0_0_0_1px_#18181B,0_1px_2px_0px_#00000066,inset_0_0.75px_0_0_#FFFFFF33]
-  cursor-pointer`}
+       className={`flex items-center gap-[6px] 
+      h-[36px]
+       rounded-[6px]
+      px-[10px] py-[6px]
+      bg-[#27272A] 
+      shadow-[0_0_0_1px_#18181B,0_1px_2px_0px_#00000066,inset_0_0.75px_0_0_#FFFFFF33]
+      cursor-pointer`}
     >
    
         <img
@@ -223,18 +223,17 @@ const WatchList: React.FC = () => {
                 <td className="px-6 py-4 whitespace-nowrap">
                   {token.editingHoldings ? (
                     <EditHoldings
-                      value={token.holdings}
-                      onChange={(value) => {
-                        dispatch(updateTokenHoldings({ tokenId: token.id, holdings: value }));
-                      }}
-                      onSave={() => {
-                        dispatch(updateTokenHoldings({ tokenId: token.id, editingHoldings: false }));
-                      }}
-                      onCancel={() => {
-                        // Revert to the previous value and close edit mode
+                      initialValue={token.holdings}
+                      onSave={(value) => {
                         dispatch(updateTokenHoldings({ 
                           tokenId: token.id, 
-                          holdings: token.holdings,
+                          holdings: value,
+                          editingHoldings: false 
+                        }));
+                      }}
+                      onCancel={() => {
+                        dispatch(updateTokenHoldings({ 
+                          tokenId: token.id,
                           editingHoldings: false 
                         }));
                       }}
