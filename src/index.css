@@ -18,15 +18,20 @@
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
+  min-width: 100%;
   min-height: 100vh;
   background-color: #212124;
+  overflow-x: hidden;
 }
 
-
-
+#root {
+  min-height: 100vh;
+  width: 100%;
+  background-color: #212124;
+  padding-top: 64px; /* Height of navbar */
+  display: flex;
+  flex-direction: column;
+}
 
 @theme {
   --color-primary: #212124;

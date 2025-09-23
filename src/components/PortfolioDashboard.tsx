@@ -1,9 +1,11 @@
 import React from "react";
-import { useSelector } from "react-redux";
+
 import type { RootState } from "../store/store";
 import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import type { WatchedToken } from "../store/slices/watchlistSlice";
+import { useSelector } from "react-redux";
+
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -27,7 +29,7 @@ const PortfolioDashboard: React.FC = () => {
   }));
 
   return (
-    <div className="w-full h-full bg-secondary rounded-[12px] p-[24px]">
+    <div className="w-full bg-[#27272A] rounded-[12px] p-6 mt-[80px]">
       {/* Main grid with two columns */}
       <div className="grid grid-cols-1 lg:grid-cols-2 w-full gap-5">
         {/* Left Column - Portfolio Stats */}
@@ -41,14 +43,14 @@ const PortfolioDashboard: React.FC = () => {
 
               <div className="text-text-secondary text-normal text-xs flex gap-1">
                 <p>Last Updated:</p>
-                <p>{new Date().toLocaleString()}</p>
+               <p>{new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", hour12: true, second: "2-digit" }).toUpperCase()}</p>
               </div>
           </div>
 
         {/* Right Column - Distribution Chart */}
         <div className="text-left rounded-lg">
-          <p className="text-text-secondary text-base mb-4">Portfolio Distribution</p>
-          <div className="flex gap-8"> 
+          <p className="text-text-secondary text-base">Portfolio Total</p>
+          <div className="flex gap-8 mt-5"> 
             <div className="w-[200px] h-[200px]">
               {tokenData.length > 0 ? (
                 <Doughnut
@@ -82,7 +84,7 @@ const PortfolioDashboard: React.FC = () => {
                     <div key={token.id} className="flex justify-between items-center">
                       <div className="flex items-center gap-2">
 
-                        <span className="font-medium text-sm"  style={{ color: token.color }}>{token.symbol.toUpperCase()}</span>
+                        <span className="font-medium text-sm"  style={{ color: token.color }}>{token.name} ({token.symbol.toUpperCase()})</span>
                       </div>
                       <span className="text-text-secondary font-medium text-sm">{token.percentage.toFixed(2)}%</span>
                     </div>

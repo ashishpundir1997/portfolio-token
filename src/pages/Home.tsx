@@ -4,7 +4,7 @@ import WatchList from '../components/Watchlist.tsx';
 
 const Home: React.FC = () => {
   return (
-    <div className='w-full h-full p-6 space-y-6'>
+    <div className="p-6 flex-1 flex flex-col gap-6">
       <PortfolioDashboard />
       <WatchList />
     </div>

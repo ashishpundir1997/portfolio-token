@@ -5,6 +5,10 @@ import { addToken, removeToken, updateTokenHoldings, updateTokenPrice } from "..
 import type { WatchedToken } from "../store/slices/watchlistSlice";
 import debounce from "lodash/debounce";
 import type { RootState } from "../store/store";
+import star from "../assets/icons/star.svg";
+import PrimaryButton from "./common/PrimaryButton";
+import plus from "../assets/icons/plus-mini.svg";
+import OptionMenu from "./common/OptionMenu";
 
 
 const WatchList: React.FC = () => {
@@ -70,19 +74,15 @@ const WatchList: React.FC = () => {
   };
 
   return (
-    <div className=" rounded-[12px] p-6 w-full">
+    <div className="rounded-[12px] w-full">
       {/* Header with Total Value and Add Token button */}
       <div className="flex justify-between items-center mb-6">
-        <div>
-          <h2 className="text-xl font-bold">Watchlist</h2>
+        <div className="flex items-center gap-[1px] w-[280px] h-[28px]">
+            <img src={star} alt="watchlist" />
+          <h2 className="text-2xl font-medium text-[#f4f4f5]">Watchlist</h2>
         
         </div>
-        <button
-          onClick={() => setIsSearchOpen(true)}
-          className="px-4 py-2 bg-primary rounded-lg hover:bg-opacity-90 transition-colors"
-        >
-          Add Token
-        </button>
+      <PrimaryButton text="Add Token" icon={plus} radius="rounded-md" onClick={() => setIsSearchOpen(true)} />
       </div>
 
       {/* Search Modal */}
@@ -140,40 +140,51 @@ const WatchList: React.FC = () => {
       )}
 
       {/* Watchlist Table */}
-      <div className="overflow-x-auto">
-        <table className="min-w-full">
-          <thead className="">
+      <div className="overflow-x-auto rounded-[12px] border border-[var(--alpha-white-alpha-8,#FFFFFF14)]">
+        <table className="min-w-full  ">
+          <thead className="bg-secondary h-[48px]">
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Token</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">24h Change</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Holdings</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Value</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">7d Chart</th>
-              <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                <th className="px-6 py-2 text-left text-xs font-medium text-text-secondary uppercase tracking-wider">Token</th>
+                <th className="px-6 py-2 text-left text-xs font-medium text-text-secondary uppercase tracking-wider">Price</th>
+                <th className="px-6 py-2 text-left text-xs font-medium text-text-secondary uppercase tracking-wider">24h %</th>
+                <th className="px-6 py-2 text-left text-xs font-medium text-text-secondary uppercase tracking-wider">Sparkline (7d)</th>
+                <th className="px-6 py-2 text-left text-xs font-medium text-text-secondary uppercase tracking-wider">Holdings</th>
+             
+                <th className="px-6 py-2 text-left text-xs font-medium text-text-secondary uppercase tracking-wider">Value</th>
+        
+            
+              <th className="w-[48px]"></th>
             </tr>
           </thead>
-          <tbody className=" divide-y divide-gray-200">
+          <tbody className="divide-y divide-[#FFFFFF14]">
             {watchedTokens.map((token) => (
-              <tr key={token.id} className="hover:bg-gray-50">
+              <tr key={token.id} className="hover:bg-[#FFFFFF08]">
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="flex items-center">
                     <img src={token.image} alt={token.name} className="w-8 h-8 rounded-full" />
                     <div className="ml-3">
-                      <p className="font-medium">{token.name}</p>
-                      <p className="text-sm text-gray-500">{token.symbol.toUpperCase()}</p>
+                        <div className="flex">
+                             <p className="font-normal text-[13px] text-[#f4f4f5]">{token.name}</p>
+                             <p className="font-normal text-[13px] text-text-secondary ml-1">({token.symbol.toUpperCase()})</p>
+                        </div>
+                     
                     </div>
                   </div>
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="text-sm">
+                  <td className="px-6 py-4 whitespace-nowrap">
+                  <div className="text-sm text-[#f4f4f5]">
                     ${token.current_price?.toFixed(2) || '0.00'}
                   </div>
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <span className={`text-sm ${token.price_change_percentage_24h >= 0 ? 'text-green-500' : 'text-red-500'}`}>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                  <span className={`text-sm ${token.price_change_percentage_24h >= 0 ? 'text-[#22C55E]' : 'text-[#EF4444]'}`}>
                     {token.price_change_percentage_24h?.toFixed(2) || '0.00'}%
                   </span>
+                </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                  <div className="w-24 h-8 bg-[#27272A] rounded">
+                    {/* Placeholder for sparkline chart */}
+                  </div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   {token.editingHoldings ? (
@@ -185,7 +196,7 @@ const WatchList: React.FC = () => {
                           const value = parseFloat(e.target.value) || 0;
                           dispatch(updateTokenHoldings({ tokenId: token.id, holdings: value }));
                         }}
-                        className="w-24 px-2 py-1 border rounded"
+                        className="w-24 px-2 py-1 bg-[#27272A] border border-[#FFFFFF14] rounded text-[#f4f4f5]"
                         placeholder="0.00"
                         min="0"
                         step="any"
@@ -193,48 +204,36 @@ const WatchList: React.FC = () => {
                       />
                       <button 
                         onClick={() => dispatch(updateTokenHoldings({ tokenId: token.id, editingHoldings: false }))}
-                        className="text-green-600 hover:text-green-800 px-2 py-1"
+                        className="text-[#22C55E] hover:text-[#16A34A] px-2 py-1"
                       >
                         Save
                       </button>
                     </div>
                   ) : (
-                    <div className="text-sm text-gray-900">
+                    <div className="text-sm text-[#f4f4f5]">
                       {token.holdings?.toFixed(8) || '0.00000000'}
                     </div>
                   )}
                 </td>
+              
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="text-sm text-gray-900">
+                  <div className="text-sm text-[#f4f4f5]">
                     ${((token.holdings || 0) * token.current_price).toFixed(2)}
                   </div>
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="w-24 h-8 bg-gray-100 rounded">
-                    {/* Placeholder for sparkline chart */}
-                  </div>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-right">
-                  <div className="flex justify-end gap-4">
-                    <button
-                      onClick={() => dispatch(updateTokenHoldings({ tokenId: token.id, editingHoldings: true }))}
-                      className="text-blue-600 hover:text-blue-800"
-                    >
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => dispatch(removeToken(token.id))}
-                      className="text-red-600 hover:text-red-800"
-                    >
-                      Remove
-                    </button>
-                  </div>
+              
+              
+                <td className="pr-4 py-4 whitespace-nowrap">
+                  <OptionMenu
+                    onEdit={() => dispatch(updateTokenHoldings({ tokenId: token.id, editingHoldings: true }))}
+                    onDelete={() => dispatch(removeToken(token.id))}
+                  />
                 </td>
               </tr>
             ))}
             {watchedTokens.length === 0 && (
               <tr>
-                <td colSpan={5} className="px-6 py-8 text-center text-gray-500">
+                <td colSpan={7} className="px-6 py-8 text-center text-text-secondary">
                   No tokens in watchlist. Click "Add Token" to get started.
                 </td>
               </tr>
