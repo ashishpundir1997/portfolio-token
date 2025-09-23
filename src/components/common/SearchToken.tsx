@@ -93,47 +93,34 @@ const SearchToken: React.FC<SearchTokenProps> = ({
                           {selectedCoins.has(coin.id) && (
                             <img src={star} alt="Selected" className="w-4 h-4" />
                           )}
-                          <div 
-                            className={`w-5 h-5 cursor-pointer flex items-center justify-center
-                              ${selectedCoins.has(coin.id) 
-                                ? 'text-[#22C55E]' 
-                                : 'text-[#71717A] hover:text-[#22C55E]'
-                              }`}
-                            onClick={() => {
-                              setSelectedCoins(prev => {
-                                const newSet = new Set(prev);
-                                if (newSet.has(coin.id)) {
+                          {selectedCoins.has(coin.id) ? (
+                            <img 
+                              src={tick}
+                              alt="Selected" 
+                              className="w-5 h-5 cursor-pointer"
+                              onClick={() => {
+                                setSelectedCoins(prev => {
+                                  const newSet = new Set(prev);
                                   newSet.delete(coin.id);
-                                } else {
+                                  return newSet;
+                                });
+                              }}
+                            />
+                          ) : (
+                            <div
+                              className="w-5 h-5 rounded-full border-2 border-[#D9D9D9] 0 cursor-pointer "
+                              onClick={() => {
+                                setSelectedCoins(prev => {
+                                  const newSet = new Set(prev);
                                   newSet.add(coin.id);
-                                }
-                                return newSet;
-                              });
-                            }}
-                          >
-                            <svg 
-                              xmlns="http://www.w3.org/2000/svg" 
-                              viewBox="0 0 24 24" 
-                              fill="currentColor" 
-                              className="w-5 h-5"
-                            >
-                              {selectedCoins.has(coin.id) ? (
-                                <path 
-                                  fillRule="evenodd" 
-                                  d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z" 
-                                  clipRule="evenodd" 
-                                />
-                              ) : (
-                                <path 
-                                  fillRule="evenodd" 
-                                  d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm0 1.5a8.25 8.25 0 100 16.5 8.25 8.25 0 000-16.5z" 
-                                  clipRule="evenodd" 
-                                />
-                              )}
-                            </svg>
+                                  return newSet;
+                                });
+                              }}
+                            />
+                          )}
                           </div>
                         </div>
-                      </div>
+                  
                     );
                   })}
                 </div>
@@ -166,30 +153,31 @@ const SearchToken: React.FC<SearchTokenProps> = ({
                         {selectedCoins.has(coin.id) && (
                           <img src={star} alt="Selected" className="w-4 h-4" />
                         )}
-                        <div 
-                          className={`w-5 h-5 cursor-pointer flex items-center justify-center
-                            ${selectedCoins.has(coin.id) 
-                              ? 'text-[#22C55E]' 
-                              : 'text-[#71717A] hover:text-[#22C55E]'
-                            }`}
-                          onClick={() => {
-                            setSelectedCoins(prev => {
-                              const newSet = new Set(prev);
-                              if (newSet.has(coin.id)) {
+                        {selectedCoins.has(coin.id) ? (
+                          <img 
+                            src={tick}
+                            alt="Selected" 
+                            className="w-5 h-5 cursor-pointer"
+                            onClick={() => {
+                              setSelectedCoins(prev => {
+                                const newSet = new Set(prev);
                                 newSet.delete(coin.id);
-                              } else {
+                                return newSet;
+                              });
+                            }}
+                          />
+                        ) : (
+                          <div
+                            className="w-5 h-5 rounded-full border-2 border-[#D9D9D9] bg-white cursor-pointer hover:border-[#BFBFBF] transition-colors flex items-center justify-center"
+                            onClick={() => {
+                              setSelectedCoins(prev => {
+                                const newSet = new Set(prev);
                                 newSet.add(coin.id);
-                              }
-                              return newSet;
-                            });
-                          }}
-                        >
-                          {selectedCoins.has(coin.id) && (
-                            <div className="absolute inset-0 flex items-center justify-center">
-                              <div className="w-[15px] h-[15px] rounded-full"></div>
-                            </div>
-                          )}
-                        </div>
+                                return newSet;
+                              });
+                            }}
+                          />
+                        )}
                       </div>
                     </div>
                   ))}
