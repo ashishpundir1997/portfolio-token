@@ -8,9 +8,7 @@ interface WalletConnectButtonProps {
 
 const WalletConnectButton: React.FC<WalletConnectButtonProps> = ({ radius = "rounded-full" }) => {
   return (
-    <ConnectButton.Custom
-
->
+    <ConnectButton.Custom>
       {({ account, chain, openConnectModal, mounted }) => {
         const ready = mounted;
         const connected = ready && account && chain;
@@ -40,11 +38,20 @@ const WalletConnectButton: React.FC<WalletConnectButtonProps> = ({ radius = "rou
                 </span>
               </button>
             ) : (
-              // **Show RainbowKit default connected button inside your custom wrapper**
+              // ✅ Pass responsive props here, not to ConnectButton.Custom
               <ConnectButton
-                showBalance={true} // displays ETH balance
-                accountStatus="address" // shows 0x5E…4B61
-                chainStatus="icon" // shows Ethereum icon / network
+                showBalance={{
+                  smallScreen: false,
+                  largeScreen: true,
+                }}
+                accountStatus={{
+                  smallScreen: "avatar",
+                  largeScreen: "address",
+                }}
+                chainStatus={{
+                  smallScreen: "icon",
+                  largeScreen: "full",
+                }}
               />
             )}
           </div>
