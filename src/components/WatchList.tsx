@@ -9,7 +9,6 @@ import PrimaryButton from "./common/PrimaryButton";
 import plus from "../assets/icons/plus-mini.svg";
 import OptionMenu from "./common/OptionMenu";
 import EditHoldings from "./common/EditHoldings";
-import plusWhite from "../assets/icons/plus-mini-white.svg";
 import Spinner from "./common/Spinner";
 import SearchToken from "./common/SearchToken";
 import cached from "../assets/icons/cached.svg";
