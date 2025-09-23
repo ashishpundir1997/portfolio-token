@@ -1,9 +1,8 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useSearchCoinsQuery, useGetTokenPricesQuery } from "../store/services/tokenApi";
+import { useGetTokenPricesQuery } from "../store/services/tokenApi";
 import { addToken, removeToken, updateTokenHoldings, updateTokenPrice } from "../store/slices/watchlistSlice";
 import type { WatchedToken } from "../store/slices/watchlistSlice";
-import debounce from "lodash/debounce";
 import type { RootState } from "../store/store";
 import star from "../assets/icons/star.svg";
 import PrimaryButton from "./common/PrimaryButton";
@@ -12,13 +11,13 @@ import OptionMenu from "./common/OptionMenu";
 import EditHoldings from "./common/EditHoldings";
 import plusWhite from "../assets/icons/plus-mini-white.svg";
 import Spinner from "./common/Spinner";
+import SearchToken from "./common/SearchToken";
 
 const WatchList: React.FC = () => {
   const dispatch = useDispatch();
   const watchedTokens = useSelector((state: RootState) => 
     Object.values(state.watchlist.tokens)) as WatchedToken[];
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
@@ -28,14 +27,6 @@ const WatchList: React.FC = () => {
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = Math.min(startIndex + itemsPerPage, totalItems);
   const currentTokens = watchedTokens.slice(startIndex, endIndex);
-
-  // Debounced search term
-  const debouncedSetSearchTerm = useMemo(
-    () => debounce((value: string) => {
-      setSearchTerm(value.toLowerCase().trim());
-    }, 300),
-    []
-  );
 
   // Fetch prices for watched tokens
   const tokenIds = watchedTokens.map((token) => token.id);
@@ -60,10 +51,6 @@ const WatchList: React.FC = () => {
     }
   }, [prices, dispatch]);
 
-  const { data: searchResults, isLoading } = useSearchCoinsQuery(searchTerm, {
-    skip: !isSearchOpen || searchTerm.length < 2,
-  });
-
   const handleAddToWatchlist = (coin: { id: string; name: string; symbol: string; thumb: string }) => {
     // Add token to watchlist using Redux
     const newToken: WatchedToken = {
@@ -79,8 +66,6 @@ const WatchList: React.FC = () => {
     };
     
     dispatch(addToken(newToken));
-    setIsSearchOpen(false);
-    setSearchTerm("");
   };
 
   return (
@@ -128,64 +113,11 @@ const WatchList: React.FC = () => {
       </div>
 </div>
       {/* Search Modal */}
-      {isSearchOpen && (
-        <div className="fixed inset-0 bg-[#212124D9] bg-opacity-80 flex items-center justify-center p-4 z-50">
-          <div className="bg-[#212124] rounded-lg p-6 max-w-lg w-full max-h-[80vh] flex flex-col
-            shadow-[0px_8px_16px_0px_#00000052,0px_4px_8px_0px_#00000052,0px_0px_0px_1px_#FFFFFF1A,0px_-1px_0px_0px_#FFFFFF0A,0px_0px_0px_1.5px_#FFFFFF0F_inset,0px_0px_0px_1px_#18181B_inset]">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-medium text-[#f4f4f5]">Search Tokens</h3>
-              <button 
-                onClick={() => setIsSearchOpen(false)}
-                className="text-[#71717A] hover:text-[#f4f4f5] transition-colors"
-              >
-                ×
-              </button>
-            </div>
-
-            <input
-              type="text"
-              onChange={(e) => debouncedSetSearchTerm(e.target.value)}
-              placeholder="Search by token name..."
-              className="w-full px-4 py-2 rounded-[6px] mb-4 text-[#f4f4f5] bg-[#27272A] 
-                border border-[#FFFFFF14] placeholder-[#71717A] focus:outline-none focus:border-[#FFFFFF29]"
-              autoFocus
-            />
-
-            <div className="overflow-y-auto flex-1">
-              {isLoading ? (
-                <div className="text-center py-4 text-[#71717A]">
-                  <Spinner size="md" color="#71717A" />
-                  <p className="mt-2">Searching tokens...</p>
-                </div>
-              ) : (
-                <div className="space-y-2">
-                  {searchResults?.coins.map((coin) => (
-                    <div
-                      key={coin.id}
-                      className="flex items-center justify-between p-3 hover:bg-[#27272A] rounded-[6px] group transition-colors"
-                    >
-                      <div className="flex items-center gap-3">
-                        <img src={coin.thumb} alt={coin.name} className="w-8 h-8 rounded-full" />
-                        <div>
-                          <p className="font-medium text-[#f4f4f5]">{coin.name}</p>
-                          <p className="text-sm text-[#71717A]">{coin.symbol.toUpperCase()}</p>
-                        </div>
-                      </div>
-                      <button
-                        onClick={() => handleAddToWatchlist(coin)}
-                        className="opacity-0 group-hover:opacity-100 px-3 py-1 bg-[#22C55E] text-white rounded-[6px] 
-                          hover:bg-[#16A34A] transition-all text-sm font-medium"
-                      >
-                        Add
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      )}
+      <SearchToken
+        isOpen={isSearchOpen}
+        onClose={() => setIsSearchOpen(false)}
+        onAddToken={handleAddToWatchlist}
+      />
 
       {/* Watchlist Table */}
       <div className="overflow-x-auto rounded-[12px] border border-[var(--alpha-white-alpha-8,#FFFFFF14)]">
