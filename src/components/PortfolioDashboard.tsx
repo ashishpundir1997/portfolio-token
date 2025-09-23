@@ -20,13 +20,28 @@ const generateColor = (index: number): string => {
 const PortfolioDashboard: React.FC = () => {
   const { tokens, totalValue } = useSelector((state: RootState) => state.watchlist);
   
+  // Format currency with appropriate units
+  const formatCurrency = (value: number): string => {
+    if (value >= 1000000) {
+      return `$${(value / 1000000).toFixed(2)}M`;
+    } else if (value >= 1000) {
+      return `$${(value / 1000).toFixed(2)}K`;
+    }
+    return `$${value.toFixed(2)}`;
+  };
+
+  // Get all tokens and filter those with holdings
   const tokenList = Object.values(tokens) as WatchedToken[];
-  const tokenData = tokenList.map((token) => ({
+  const tokensWithHoldings = tokenList.filter(token => token.holdings > 0);
+  
+  // Calculate data for tokens with holdings
+  const tokenData = tokensWithHoldings.map((token, index) => ({
     ...token,
     value: token.holdings * token.current_price,
     percentage: (token.holdings * token.current_price / totalValue) * 100,
-    color: generateColor(tokenList.indexOf(token))
-  }));
+    color: generateColor(index)
+  }))
+  .sort((a, b) => b.value - a.value);
 
   return (
     <div className="w-full bg-[#27272A] rounded-[12px] p-6 mt-[70px]">
@@ -67,13 +82,23 @@ const PortfolioDashboard: React.FC = () => {
                     plugins: {
                       legend: {
                         display: false
+                      },
+                      tooltip: {
+                        callbacks: {
+                          label: (context: any) => {
+                            const label = context.label || '';
+                            const value = context.raw || 0;
+                            const percentage = tokenData[context.dataIndex]?.percentage || 0;
+                            return `${label}: ${formatCurrency(value)} (${percentage.toFixed(2)}%)`;
+                          }
+                        }
                       }
                     }
                   }}
                 />
               ) : (
                 <div className="w-full h-full flex items-center justify-center text-text-secondary">
-                  No tokens added
+                  No tokens with holdings
                 </div>
               )}
             </div>
@@ -83,16 +108,23 @@ const PortfolioDashboard: React.FC = () => {
                   {tokenData.map((token) => (
                     <div key={token.id} className="flex justify-between items-center">
                       <div className="flex items-center gap-2">
-
-                        <span className="font-medium text-sm"  style={{ color: token.color }}>{token.name} ({token.symbol.toUpperCase()})</span>
+                   
+                        <span className={`font-medium text-sm  text-[#f4f4f5]`}  style={{ color: token.color }}>
+                          {token.name} ({token.symbol.toUpperCase()})
+                        </span>
                       </div>
-                      <span className="text-text-secondary font-medium text-sm">{token.percentage.toFixed(2)}%</span>
+                      <div className="flex items-center gap-3">
+                    
+                        <span className="text-text-secondary font-medium text-sm min-w-[60px] text-right">
+                          {token.percentage.toFixed(2)}%
+                        </span>
+                      </div>
                     </div>
                   ))}
                 </div>
               ) : (
                 <div className="text-text-secondary text-center">
-                  Add tokens to see distribution
+                  Add token holdings to see distribution
                 </div>
               )}
             </div>

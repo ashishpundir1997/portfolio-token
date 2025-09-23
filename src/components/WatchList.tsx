@@ -16,9 +16,17 @@ const WatchList: React.FC = () => {
   const dispatch = useDispatch();
   const watchedTokens = useSelector((state: RootState) => 
     Object.values(state.watchlist.tokens)) as WatchedToken[];
-//   const totalValue = useSelector((state: RootState) => state.watchlist.totalValue); 
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+
+  // Pagination calculations
+  const totalItems = watchedTokens.length;
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = Math.min(startIndex + itemsPerPage, totalItems);
+  const currentTokens = watchedTokens.slice(startIndex, endIndex);
 
   // Debounced search term
   const debouncedSetSearchTerm = useMemo(
@@ -183,7 +191,7 @@ const WatchList: React.FC = () => {
             </tr>
           </thead>
           <tbody className="divide-y divide-[#FFFFFF14]">
-            {watchedTokens.map((token) => (
+            {currentTokens.map((token) => (
               <tr key={token.id} className="hover:bg-[#FFFFFF08]">
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="flex items-center">
@@ -261,6 +269,49 @@ const WatchList: React.FC = () => {
               </tr>
             )}
           </tbody>
+          <tfoot>
+            <tr className="border-t border-[#FFFFFF14]">
+              <td colSpan={7}>
+                <div className="flex justify-between items-center px-6 h-[60px] text-text-secondary text-sm">
+                  <div>
+                    {watchedTokens.length > 0 ? (
+                      `${startIndex + 1}-${endIndex} of ${totalItems} results`
+                    ) : (
+                      "0 results"
+                    )}
+                  </div>
+                  <div className="flex items-center gap-4">
+                    {totalPages > 1 && (
+                      <>
+                      
+                        <span>
+                          {currentPage} of {totalPages} pages
+                        </span>
+                          <button
+                          onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                          disabled={currentPage === 1}
+                          className={`px-2 py-1 rounded hover:bg-[#FFFFFF14] ${
+                            currentPage === 1 ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'
+                          }`}
+                        >
+                          Prev
+                        </button>
+                        <button
+                          onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                          disabled={currentPage === totalPages}
+                          className={`px-2 py-1 rounded hover:bg-[#FFFFFF14] ${
+                            currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'
+                          }`}
+                        >
+                          Next
+                        </button>
+                      </>
+                    )}
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tfoot>
         </table>
       </div>
     </div>
