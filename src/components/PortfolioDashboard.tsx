@@ -19,7 +19,7 @@ const generateColor = (index: number): string => {
 
 const PortfolioDashboard: React.FC = () => {
   const { tokens, totalValue, lastUpdated } = useSelector((state: RootState) => state.watchlist);
-  
+  console.log("PortfolioDashboard Redux state:", { lastUpdated, totalValue });
   // Format currency with appropriate units
   const formatCurrency = (value: number): string => {
     if (value >= 1000000) {

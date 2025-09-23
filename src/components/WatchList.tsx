@@ -33,12 +33,15 @@ const WatchList: React.FC = () => {
   const tokenIds = watchedTokens.map((token) => token.id);
   const { data: prices, refetch, isFetching } = useGetTokenPricesQuery(tokenIds, {
     skip: tokenIds.length === 0,
-    pollingInterval: 60000 // Update every minute
+
   });
+
+  
 
   // Update prices when data is received
   useEffect(() => {
     if (prices) {
+          console.log("Updating Redux with prices:", prices);
       Object.entries(prices).forEach(([id, priceData]) => {
         dispatch(
           updateTokenPrice({
@@ -69,6 +72,26 @@ const WatchList: React.FC = () => {
     dispatch(addToken(newToken));
   };
 
+  const handleRefresh = async () => {
+  if (tokenIds.length > 0 && !isFetching) {
+    const refreshed = await refetch();
+    if (refreshed.data) {
+      console.log("Updating Redux with refreshed data:", refreshed.data);
+      Object.entries(refreshed.data).forEach(([id, priceData]) => {
+        dispatch(
+          updateTokenPrice({
+            tokenId: id,
+            price: priceData.usd,
+            change24h: priceData.usd_24h_change || 0,
+            sparkline: priceData.sparkline_7d || []
+          })
+        );
+      });
+    }
+  }
+};
+
+
   return (
     <div className="rounded-[12px] w-full">
       {/* Header with Total Value and Add Token button */}
@@ -80,11 +103,7 @@ const WatchList: React.FC = () => {
         </div>
    <div className="flex gap-3">
     <button
-      onClick={() => {
-        if (tokenIds.length > 0 && !isFetching) {
-          refetch();
-        }
-      }}
+      onClick={handleRefresh}
       disabled={tokenIds.length === 0 || isFetching}
       className={`flex items-center gap-[6px] 
       h-[36px]
