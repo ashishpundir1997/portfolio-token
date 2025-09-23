@@ -17,6 +17,13 @@ const SearchToken: React.FC<SearchTokenProps> = ({
   const [searchTerm, setSearchTerm] = React.useState("");
   const [selectedCoins, setSelectedCoins] = React.useState<Set<string>>(new Set());
 
+  // Handle closing and resetting state
+  const handleClose = () => {
+    setSearchTerm("");
+    setSelectedCoins(new Set());
+    onClose();
+  };
+
   // Debounced search term
   const debouncedSetSearchTerm = useMemo(
     () => debounce((value: string) => {
@@ -34,10 +41,15 @@ const SearchToken: React.FC<SearchTokenProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-[#212124D9] bg-opacity-80 flex items-center justify-center p-4 z-50">
-      <div className="bg-[#212124] rounded-lg max-w-[640px] w-full max-h-[60vh] flex flex-col
-        shadow-[0px_8px_16px_0px_#00000052,0px_4px_8px_0px_#00000052,0px_0px_0px_1px_#FFFFFF1A,0px_-1px_0px_0px_#FFFFFF0A,0px_0px_0px_1.5px_#FFFFFF0F_inset,0px_0px_0px_1px_#18181B_inset]">
-      
+    <div 
+      className="fixed inset-0 bg-[#212124D9] bg-opacity-80 flex items-center justify-center p-4 z-50"
+      onClick={handleClose}
+    >
+      <div 
+        className="bg-[#212124] rounded-lg max-w-[640px] w-full max-h-[60vh] flex flex-col
+          shadow-[0px_8px_16px_0px_#00000052,0px_4px_8px_0px_#00000052,0px_0px_0px_1px_#FFFFFF1A,0px_-1px_0px_0px_#FFFFFF0A,0px_0px_0px_1.5px_#FFFFFF0F_inset,0px_0px_0px_1px_#18181B_inset]"
+        onClick={(e) => e.stopPropagation()}
+    >
 
         <input
           type="text"
@@ -176,8 +188,7 @@ const SearchToken: React.FC<SearchTokenProps> = ({
                   onAddToken(coin);
                 }
               });
-              setSelectedCoins(new Set());
-              onClose();
+              handleClose();
             }}
             disabled={selectedCoins.size === 0}
             className="px-[10px] py-[6px] bg-secondary border rounded-[6px] border-[var(--borders-border-base,#FFFFFF1A)]
