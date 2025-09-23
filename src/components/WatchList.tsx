@@ -129,14 +129,11 @@ const WatchList: React.FC = () => {
                 <th className="px-6 py-2 text-left text-xs font-medium text-text-secondary uppercase tracking-wider">24h %</th>
                 <th className="px-6 py-2 text-left text-xs font-medium text-text-secondary uppercase tracking-wider">Sparkline (7d)</th>
                 <th className="px-6 py-2 text-left text-xs font-medium text-text-secondary uppercase tracking-wider">Holdings</th>
-             
                 <th className="px-6 py-2 text-left text-xs font-medium text-text-secondary uppercase tracking-wider">Value</th>
-        
-            
               <th className="w-[48px]"></th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-[#FFFFFF14]">
+          <tbody>
             {currentTokens.map((token) => (
               <tr key={token.id} className="hover:bg-[#FFFFFF08]">
                 <td className="px-6 py-4 whitespace-nowrap">

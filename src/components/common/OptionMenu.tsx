@@ -27,7 +27,7 @@ const OptionMenu: React.FC<OptionMenuProps> = ({ onEdit, onDelete }) => {
     <div className="relative" ref={menuRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="p-1 hover:bg-[#FFFFFF14] rounded-md"
+        className="p-1 hover:bg-[#FFFFFF14] rounded-md cursor-pointer"
       >
         <img src={dots} alt="options" className="w-6 h-6 " />
       </button>
@@ -39,7 +39,7 @@ const OptionMenu: React.FC<OptionMenuProps> = ({ onEdit, onDelete }) => {
               onEdit();
               setIsOpen(false);
             }}
-            className="block w-full text-left px-4 py-2 text-sm text-[#f4f4f5] hover:bg-[#FFFFFF14]"
+            className="block w-full text-left px-4 py-2 text-[13px] text-[#A1A1AA] hover:bg-[#FFFFFF14] cursor-pointer"
           >
             <img src={pencil} alt="edit" className="w-4 h-4 inline-block mr-2" />
             Edit Holdings
@@ -50,7 +50,7 @@ const OptionMenu: React.FC<OptionMenuProps> = ({ onEdit, onDelete }) => {
               onDelete();
               setIsOpen(false);
             }}
-            className="block w-full text-left px-4 py-2 text-sm text-red-500 hover:bg-[#FFFFFF14]"
+            className="block w-full text-left px-4 py-2 text-[13px] text-red-300 hover:bg-[#FFFFFF14] cursor-pointer"
           >
                     <img src={trash} alt="edit" className="w-4 h-4 inline-block mr-2" />
             Remove
