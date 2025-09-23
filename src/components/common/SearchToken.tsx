@@ -113,7 +113,7 @@ React.useEffect(() => {
                             <p className="text-sm font-normal text-[#f4f4f5]">({coin.symbol.toUpperCase()})</p>
                           </div>
                         </div>
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-3">
                           {selectedCoins.has(coin.id) && (
                             <img src={star} alt="Selected" className="w-4 h-4" />
                           )}
@@ -175,7 +175,7 @@ React.useEffect(() => {
                       </div>
                       <div className="flex items-center gap-2">
                         {selectedCoins.has(coin.id) && (
-                          <img src={star} alt="Selected" className="w-4 h-4" />
+                          <img src={star} alt="Selected" className="w-[15px] h-[15px]" />
                         )}
                         {selectedCoins.has(coin.id) ? (
                           <img 
