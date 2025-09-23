@@ -9,15 +9,24 @@ interface SearchTokenProps {
   isOpen: boolean;
   onClose: () => void;
   onAddToken: (coin: { id: string; name: string; symbol: string; thumb: string }) => void;
+   watchedTokenIds: string[]; 
 }
 
 const SearchToken: React.FC<SearchTokenProps> = ({
   isOpen,
   onClose,
   onAddToken
+,  watchedTokenIds
 }) => {
   const [searchTerm, setSearchTerm] = React.useState("");
   const [selectedCoins, setSelectedCoins] = React.useState<Set<string>>(new Set());
+
+  React.useEffect(() => {
+  if (isOpen) {
+    setSelectedCoins(new Set(watchedTokenIds)); 
+  }
+}, [isOpen, watchedTokenIds]);
+
 
   // Handle closing and resetting state
   const handleClose = () => {
@@ -93,7 +102,7 @@ const SearchToken: React.FC<SearchTokenProps> = ({
                           {selectedCoins.has(coin.id) && (
                             <img src={star} alt="Selected" className="w-4 h-4" />
                           )}
-                          {selectedCoins.has(coin.id) ? (
+                          {selectedCoins.has(coin.id) && watchedTokenIds.includes(coin.id) ? (
                             <img 
                               src={tick}
                               alt="Selected" 

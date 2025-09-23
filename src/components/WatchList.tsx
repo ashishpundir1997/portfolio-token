@@ -117,6 +117,7 @@ const WatchList: React.FC = () => {
         isOpen={isSearchOpen}
         onClose={() => setIsSearchOpen(false)}
         onAddToken={handleAddToWatchlist}
+        watchedTokenIds={tokenIds}
       />
 
       {/* Watchlist Table */}
