@@ -192,7 +192,7 @@ React.useEffect(() => {
                           />
                         ) : (
                           <div
-                            className="w-5 h-5 rounded-full border-2 border-[#D9D9D9] bg-white cursor-pointer hover:border-[#BFBFBF] transition-colors flex items-center justify-center"
+                            className="w-5 h-5 rounded-full border-2 border-[#D9D9D9]  cursor-pointer hover:border-[#BFBFBF] transition-colors flex items-center justify-center"
                             onClick={() => {
                               setSelectedCoins(prev => {
                                 const newSet = new Set(prev);
