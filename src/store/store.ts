@@ -1,8 +1,10 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
-import { persistStore, persistReducer } from "redux-persist";
+import { persistStore, persistReducer, PURGE } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import { coingeckoApi } from "./services/tokenApi";
 import watchlistReducer from "./slices/watchlistSlice";
+
+
 
 const persistConfig = {
   key: "root",
@@ -15,7 +17,7 @@ const rootReducer = combineReducers({
   watchlist: watchlistReducer,
 });
 
-export type RootState = ReturnType<typeof rootReducer>;
+
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 

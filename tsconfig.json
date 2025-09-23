@@ -6,5 +6,6 @@
   ],
    "compilerOptions": {
     "verbatimModuleSyntax": true,
+     "typeRoots": ["./src/types", "./node_modules/@types"]
   }
 }

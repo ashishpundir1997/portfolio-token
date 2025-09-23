@@ -48,7 +48,7 @@ const WatchList: React.FC = () => {
             tokenId: id,
             price: priceData.usd,
             change24h: priceData.usd_24h_change || 0,
-            sparkline: priceData.sparkline_7d || []
+            sparkline: priceData.sparkline_7d
           })
         );
       });

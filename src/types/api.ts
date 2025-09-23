@@ -1,9 +1,7 @@
 export interface TokenPriceData {
   usd: number;
   usd_24h_change?: number;
-  sparkline_7d?: {
-    price: number[];
-  };
+  sparkline_7d?: number[];
 }
 
 export interface TokenSearchResult {

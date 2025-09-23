@@ -31,7 +31,7 @@ export const coingeckoApi = createApi({
       transformed[token.id] = {
         usd: token.current_price,
         usd_24h_change: token.price_change_percentage_24h ?? 0,
-        sparkline_7d: token.sparkline_in_7d?.price || [], // <-- array of numbers
+       sparkline_7d: token.sparkline_in_7d?.price ?? [],
       };
     });
     return transformed;
