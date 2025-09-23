@@ -104,7 +104,7 @@ const PortfolioDashboard: React.FC = () => {
             </div>
             <div className="flex-1">
               {tokenData.length > 0 ? (
-                <div className="space-y-3">
+                <div className="space-y-3 h-[200px] overflow-y-auto pr-2">
                   {tokenData.map((token) => (
                     <div key={token.id} className="flex justify-between items-center">
                       <div className="flex items-center gap-2">
