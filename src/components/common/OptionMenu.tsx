@@ -1,5 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
-import dotsVertical from '../../assets/icons/dots-vertical.svg';
+import dots from '../../assets/icons/IconButton.svg';
+import pencil from '../../assets/icons/pencil-square.svg';
+import trash from '../../assets/icons/trash.svg';
 
 interface OptionMenuProps {
   onEdit: () => void;
@@ -27,11 +29,11 @@ const OptionMenu: React.FC<OptionMenuProps> = ({ onEdit, onDelete }) => {
         onClick={() => setIsOpen(!isOpen)}
         className="p-1 hover:bg-[#FFFFFF14] rounded-md"
       >
-        <img src={dotsVertical} alt="options" className="w-5 h-5" />
+        <img src={dots} alt="options" className="w-6 h-6 " />
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 py-2 w-48 bg-[#18181B] rounded-md shadow-lg border border-[#FFFFFF14] z-10">
+        <div className="absolute right-0 mt-2 py-2 w-48 bg-[#27272A] rounded-md border border-[#FFFFFF14] z-10 shadow-[0_8px_16px_0_#00000014,0_4px_8px_0_#00000014,0_0_0_1px_#00000014]">
           <button
             onClick={() => {
               onEdit();
@@ -39,8 +41,10 @@ const OptionMenu: React.FC<OptionMenuProps> = ({ onEdit, onDelete }) => {
             }}
             className="block w-full text-left px-4 py-2 text-sm text-[#f4f4f5] hover:bg-[#FFFFFF14]"
           >
+            <img src={pencil} alt="edit" className="w-4 h-4 inline-block mr-2" />
             Edit Holdings
           </button>
+          <div className='bg-[var(--borders-border-menu-bot,#FFFFFF14)] h-[1px]'></div>
           <button
             onClick={() => {
               onDelete();
@@ -48,6 +52,7 @@ const OptionMenu: React.FC<OptionMenuProps> = ({ onEdit, onDelete }) => {
             }}
             className="block w-full text-left px-4 py-2 text-sm text-red-500 hover:bg-[#FFFFFF14]"
           >
+                    <img src={trash} alt="edit" className="w-4 h-4 inline-block mr-2" />
             Remove
           </button>
         </div>
