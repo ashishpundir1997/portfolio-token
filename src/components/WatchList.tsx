@@ -12,6 +12,7 @@ import EditHoldings from "./common/EditHoldings";
 import Spinner from "./common/Spinner";
 import SearchToken from "./common/SearchToken";
 import cached from "../assets/icons/cached.svg";
+import { Sparklines, SparklinesLine } from 'react-sparklines';
 
 const WatchList: React.FC = () => {
   const dispatch = useDispatch();
@@ -20,7 +21,7 @@ const WatchList: React.FC = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
-
+console.log(watchedTokens);
   // Pagination calculations
   const totalItems = watchedTokens.length;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
@@ -44,7 +45,7 @@ const WatchList: React.FC = () => {
             tokenId: id,
             price: priceData.usd,
             change24h: priceData.usd_24h_change || 0,
-            sparkline: priceData.sparkline_7d?.price || []
+            sparkline: priceData.sparkline_7d || []
           })
         );
       });
@@ -160,8 +161,10 @@ const WatchList: React.FC = () => {
                   </span>
                 </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="w-24 h-8 bg-[#27272A] rounded">
-                    {/* Placeholder for sparkline chart */}
+                  <div className="w-24 h-8  rounded">
+                   <Sparklines data={token.sparkline_7d} width={100} height={30}>
+  <SparklinesLine color={token.price_change_percentage_24h >= 0 ? "#22C55E" : "#EF4444"}   style={{ fill: "transparent", strokeWidth: 2 }} />
+</Sparklines>
                   </div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">

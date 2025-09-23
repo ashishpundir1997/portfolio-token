@@ -21,11 +21,24 @@ export const coingeckoApi = createApi({
 					url: "/search/trending",
 				}),
 			}),
-			getTokenPrices: builder.query<Record<string, TokenPriceData>, string[]>({
-				query: (ids) => ({
-					url: `/simple/price?ids=${ids.join(",")}&vs_currencies=usd&include_24hr_change=true&include_sparkline=true`,
-				}),
-			}),
+		getTokenPrices: builder.query<Record<string, TokenPriceData>, string[]>({
+  query: (ids) => ({
+    url: `/coins/markets?vs_currency=usd&ids=${ids.join(",")}&sparkline=true`,
+  }),
+  transformResponse: (response: any[]) => {
+    const transformed: Record<string, TokenPriceData> = {};
+    response.forEach((token) => {
+      transformed[token.id] = {
+        usd: token.current_price,
+        usd_24h_change: token.price_change_percentage_24h ?? 0,
+        sparkline_7d: token.sparkline_in_7d?.price || [], // <-- array of numbers
+      };
+    });
+    return transformed;
+  },
+}),
+
+
 	}),
 });
 
