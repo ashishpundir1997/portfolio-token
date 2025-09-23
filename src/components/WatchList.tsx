@@ -9,13 +9,14 @@ import star from "../assets/icons/star.svg";
 import PrimaryButton from "./common/PrimaryButton";
 import plus from "../assets/icons/plus-mini.svg";
 import OptionMenu from "./common/OptionMenu";
-
+import EditHoldings from "./common/EditHoldings";
+import plusWhite from "../assets/icons/plus-mini-white.svg";
 
 const WatchList: React.FC = () => {
   const dispatch = useDispatch();
   const watchedTokens = useSelector((state: RootState) => 
     Object.values(state.watchlist.tokens)) as WatchedToken[];
-  const totalValue = useSelector((state: RootState) => state.watchlist.totalValue);
+//   const totalValue = useSelector((state: RootState) => state.watchlist.totalValue); 
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -33,6 +34,8 @@ const WatchList: React.FC = () => {
     skip: tokenIds.length === 0,
     pollingInterval: 60000 // Update every minute
   });
+  console.log("Prices:", prices);
+  console.log("Watched Tokens:", watchedTokens);
 
   // Update prices when data is received
   useEffect(() => {
@@ -82,9 +85,32 @@ const WatchList: React.FC = () => {
           <h2 className="text-2xl font-medium text-[#f4f4f5]">Watchlist</h2>
         
         </div>
+<div className="flex gap-3">
+    <button
+    //   onClick={}
+   className={`flex items-center gap-[6px] 
+  h-[36px]
+   rounded-[6px]
+  px-[10px] py-[6px]
+  bg-[#27272A] 
+  shadow-[0_0_0_1px_#18181B,0_1px_2px_0px_#00000066,inset_0_0.75px_0_0_#FFFFFF33]
+  cursor-pointer`}
+    >
+   
+        <img
+          src={plusWhite}
+          alt="Button Icon"
+          className="w-[15px] h-[15px]"
+        />
+  
+      <span className="text-[#ffffffd6] font-medium leading-[20px]">
+        Refresh Prices
+      </span>
+    </button>
+
       <PrimaryButton text="Add Token" icon={plus} radius="rounded-md" onClick={() => setIsSearchOpen(true)} />
       </div>
-
+</div>
       {/* Search Modal */}
       {isSearchOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
@@ -188,30 +214,26 @@ const WatchList: React.FC = () => {
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   {token.editingHoldings ? (
-                    <div className="flex items-center gap-2">
-                      <input
-                        type="number"
-                        value={token.holdings || ''}
-                        onChange={(e) => {
-                          const value = parseFloat(e.target.value) || 0;
-                          dispatch(updateTokenHoldings({ tokenId: token.id, holdings: value }));
-                        }}
-                        className="w-24 px-2 py-1 bg-[#27272A] border border-[#FFFFFF14] rounded text-[#f4f4f5]"
-                        placeholder="0.00"
-                        min="0"
-                        step="any"
-                        autoFocus
-                      />
-                      <button 
-                        onClick={() => dispatch(updateTokenHoldings({ tokenId: token.id, editingHoldings: false }))}
-                        className="text-[#22C55E] hover:text-[#16A34A] px-2 py-1"
-                      >
-                        Save
-                      </button>
-                    </div>
+                    <EditHoldings
+                      value={token.holdings}
+                      onChange={(value) => {
+                        dispatch(updateTokenHoldings({ tokenId: token.id, holdings: value }));
+                      }}
+                      onSave={() => {
+                        dispatch(updateTokenHoldings({ tokenId: token.id, editingHoldings: false }));
+                      }}
+                      onCancel={() => {
+                        // Revert to the previous value and close edit mode
+                        dispatch(updateTokenHoldings({ 
+                          tokenId: token.id, 
+                          holdings: token.holdings,
+                          editingHoldings: false 
+                        }));
+                      }}
+                    />
                   ) : (
                     <div className="text-sm text-[#f4f4f5]">
-                      {token.holdings?.toFixed(8) || '0.00000000'}
+                      {token.holdings?.toFixed(4) || '0.0000'}
                     </div>
                   )}
                 </td>
