@@ -21,7 +21,7 @@ const WatchList: React.FC = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
-console.log(watchedTokens);
+
   // Pagination calculations
   const totalItems = watchedTokens.length;
   const totalPages = Math.ceil(totalItems / itemsPerPage);

@@ -1,7 +1,7 @@
 import React from "react";
 import TokenIcon from "../assets/icons/token_icon.svg";
-import WalletIcon from "../assets/icons/wallet.svg";
-import PrimaryButton from "./common/PrimaryButton";
+
+import WalletConnectButton from "./common/WalletConnectButton";
 
 const Navbar: React.FC = () => {
   return (
@@ -12,7 +12,8 @@ const Navbar: React.FC = () => {
       <p className="font-semibold text-base lg:text-xl leading-[24px]">Token Portfolio</p>
 </div>
       {/* Right Button */}
-   <PrimaryButton text="Conect wallet" icon={WalletIcon} radius="rounded-full" onClick={() => { /* Handle click */ }} />
+  <WalletConnectButton />
+ 
     </nav>
   );
 };
