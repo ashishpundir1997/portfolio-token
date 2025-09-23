@@ -102,7 +102,7 @@ const SearchToken: React.FC<SearchTokenProps> = ({
                           {selectedCoins.has(coin.id) && (
                             <img src={star} alt="Selected" className="w-4 h-4" />
                           )}
-                          {selectedCoins.has(coin.id) && watchedTokenIds.includes(coin.id) ? (
+                          {selectedCoins.has(coin.id)  ? (
                             <img 
                               src={tick}
                               alt="Selected" 
