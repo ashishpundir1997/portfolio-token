@@ -44,7 +44,7 @@ const PortfolioDashboard: React.FC = () => {
   .sort((a, b) => b.value - a.value);
 
   return (
-    <div className="w-full bg-[#27272A] rounded-[12px] p-6 mt-[70px]">
+    <div className="w-full bg-[#27272A] lg:rounded-[12px] p-6 mt-[90px] lg:mt-[70px]">
       {/* Main grid with two columns */}
       <div className="grid grid-cols-1 lg:grid-cols-2 w-full gap-5">
         {/* Left Column - Portfolio Stats */}

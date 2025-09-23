@@ -71,7 +71,7 @@ const WatchList: React.FC = () => {
   return (
     <div className="rounded-[12px] w-full">
       {/* Header with Total Value and Add Token button */}
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex justify-between items-center mb-6 mx-4 lg:mx-0">
         <div className="flex items-center gap-[1px] h-[28px]">
             <img src={star} alt="watchlist" />
           <h2 className="text-lg lg:text-2xl font-medium text-[#f4f4f5]">Watchlist</h2>
@@ -121,7 +121,7 @@ const WatchList: React.FC = () => {
       />
 
       {/* Watchlist Table */}
-      <div className="overflow-x-auto rounded-[12px] border border-[var(--alpha-white-alpha-8,#FFFFFF14)]">
+      <div className="overflow-x-auto rounded-[12px] border border-[var(--alpha-white-alpha-8,#FFFFFF14)] mx-4 lg:mx-0 mb-8 lg:mb-0">
         <table className="min-w-full  ">
           <thead className="bg-secondary h-[48px]">
             <tr>
